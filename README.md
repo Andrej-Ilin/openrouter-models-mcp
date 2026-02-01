@@ -1,24 +1,23 @@
 # OpenRouter Models MCP
 
-MCP server for fetching actual FREE models from OpenRouter API in real-time
+MCP server for fetching actual FREE models from OpenRouter API in real-time.
 
 ## Installation
 
 ```bash
-cd ~/.local/share/mcp-servers/openrouter-models
-npm install
+npm install -g openrouter-models-mcp
 ```
 
 ## Configuration
 
-Add to your Claude Code config (`~/.claude.json` or `~/.claude/settings.json`):
+Add to your Claude Code config (`~/.claude.json`):
 
 ```json
 {
   "mcpServers": {
     "openrouter-models": {
-      "command": "node",
-      "args": ["/home/andrej/.local/share/mcp-servers/openrouter-models/index.js"]
+      "command": "openrouter-models-mcp",
+      "args": []
     }
   }
 }
@@ -27,22 +26,33 @@ Add to your Claude Code config (`~/.claude.json` or `~/.claude/settings.json`):
 ## Tools
 
 ### get_free_models
+
 Get list of currently available FREE models from OpenRouter API.
 
-- `category` (optional): Filter - `all`, `chat`, `instruct`
+**Parameters:**
+- `category` (optional): Filter by category - `all`, `chat`, `instruct`
+
+**Example response:**
+```json
+{
+  "total_free_models": 32,
+  "models": [
+    {
+      "id": "google/gemma-3-27b-it:free",
+      "name": "Google: Gemma 3 27B",
+      "context_length": 131072
+    }
+  ]
+}
+```
 
 ### get_model_info
+
 Get detailed info about a specific OpenRouter model.
 
-- `model_id` (required): Model ID (e.g., `google/gemini-2.0-flash-exp:free`)
+**Parameters:**
+- `model_id` (required): Model ID (e.g., `google/gemma-3-27b-it:free`)
 
 ## License
 
 MIT
-Unknown command: "install❯ echo"
-
-
-Did you mean this?
-  npm install-test # Install package(s) and run tests
-To see a list of supported npm commands, run:
-  npm help
