@@ -39,3 +39,10 @@ Get detailed info about a specific OpenRouter model.
 ## License
 
 MIT
+Unknown command: "install❯ echo"
+
+
+Did you mean this?
+  npm install-test # Install package(s) and run tests
+To see a list of supported npm commands, run:
+  npm help
