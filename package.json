@@ -1,12 +1,17 @@
 {
   "name": "openrouter-models-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for fetching actual free models from OpenRouter API",
   "type": "module",
   "bin": {
     "openrouter-models-mcp": "./index.js"
   },
-  "keywords": ["mcp", "openrouter", "llm", "free-models"],
+  "keywords": [
+    "mcp",
+    "openrouter",
+    "llm",
+    "free-models"
+  ],
   "author": "Andrej Ilin",
   "license": "MIT",
   "repository": {
