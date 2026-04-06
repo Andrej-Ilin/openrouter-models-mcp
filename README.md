@@ -1,6 +1,12 @@
 # OpenRouter Models MCP
 
-MCP server for fetching actual FREE models from OpenRouter API in real-time.
+MCP server for fetching currently available free models from the OpenRouter API in real time.
+
+## What it does
+
+- lists models that currently have zero prompt and completion pricing
+- returns detailed metadata for a specific model
+- works as a lightweight MCP utility for model discovery inside coding agents and local tooling
 
 ## Installation
 
@@ -23,11 +29,13 @@ Add to your Claude Code config (`~/.claude.json`):
 }
 ```
 
+The server uses the public OpenRouter models endpoint, so no API key is required for the read-only use cases implemented here.
+
 ## Tools
 
 ### get_free_models
 
-Get list of currently available FREE models from OpenRouter API.
+Get the list of currently available free models from the OpenRouter API.
 
 **Parameters:**
 - `category` (optional): Filter by category - `all`, `chat`, `instruct`
@@ -52,6 +60,11 @@ Get detailed info about a specific OpenRouter model.
 
 **Parameters:**
 - `model_id` (required): Model ID (e.g., `google/gemma-3-27b-it:free`)
+
+## Notes
+
+- The list of free models can change over time because it is fetched live from OpenRouter.
+- The repository is intentionally small and focused on one task: quick discovery of currently free models.
 
 ## License
 

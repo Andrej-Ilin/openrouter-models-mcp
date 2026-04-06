@@ -12,7 +12,7 @@ const OPENROUTER_API = "https://openrouter.ai/api/v1/models";
 const server = new Server(
   {
     name: "openrouter-models-mcp",
-    version: "1.0.0",
+    version: "1.0.1",
   },
   {
     capabilities: {
@@ -58,12 +58,19 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 });
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args } = request.params;
+  const { name, arguments: args = {} } = request.params;
 
   try {
     if (name === "get_free_models") {
       const response = await fetch(OPENROUTER_API);
+      if (!response.ok) {
+        throw new Error(`OpenRouter API returned ${response.status}`);
+      }
+
       const data = await response.json();
+      if (!Array.isArray(data?.data)) {
+        throw new Error("Unexpected response from OpenRouter API");
+      }
       
       const freeModels = data.data.filter(model => {
         const promptPrice = parseFloat(model.pricing?.prompt || "1");
@@ -71,7 +78,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return promptPrice === 0 && completionPrice === 0;
       });
 
-      const category = args.category || "all";
+      const category = typeof args.category === "string" ? args.category : "all";
       let filtered = freeModels;
       
       if (category === "instruct") {
@@ -103,7 +110,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     if (name === "get_model_info") {
       const response = await fetch(OPENROUTER_API);
+      if (!response.ok) {
+        throw new Error(`OpenRouter API returned ${response.status}`);
+      }
+
       const data = await response.json();
+      if (!Array.isArray(data?.data)) {
+        throw new Error("Unexpected response from OpenRouter API");
+      }
+
+      if (typeof args.model_id !== "string" || !args.model_id) {
+        throw new Error("model_id is required");
+      }
       
       const model = data.data.find(m => m.id === args.model_id);
       
